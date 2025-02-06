@@ -21,7 +21,6 @@ dialog.addEventListener("click", (e) => {
     }
 });
 
-// Code block copy functionality
 document.querySelectorAll("pre").forEach((pre) => {
     const wrapper = document.createElement("div");
     wrapper.className = "code-block";
@@ -34,13 +33,48 @@ document.querySelectorAll("pre").forEach((pre) => {
     wrapper.appendChild(copyButton);
 
     copyButton.addEventListener("click", async () => {
-        const code = pre.textContent;
+        // Get text and clean it up
+        const rawText = pre.innerText;
+        const cleanedText = rawText
+            .split("\n") // Split into lines
+            .map((line) => line.trim()) // Trim each line
+            .filter((line) => line.length > 0) // Remove empty lines
+            .join("\n"); // Rejoin with newlines
+
         try {
-            await navigator.clipboard.writeText(code);
+            // First check if we have clipboard permissions
+            if (!navigator.clipboard) {
+                throw new Error("Clipboard API not available");
+            }
+
+            await navigator.clipboard.writeText(cleanedText);
             copyButton.textContent = "Copied!";
         } catch (err) {
-            copyButton.textContent = "Failed";
+            console.error("Failed to copy:", err);
+
+            // Fallback method using execCommand
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = cleanedText;
+                textArea.style.position = "fixed"; // Avoid scrolling
+                textArea.style.opacity = "0";
+                document.body.appendChild(textArea);
+                textArea.select();
+
+                const success = document.execCommand("copy");
+                textArea.remove();
+
+                if (success) {
+                    copyButton.textContent = "Copied!";
+                } else {
+                    throw new Error("execCommand failed");
+                }
+            } catch (fallbackErr) {
+                console.error("Fallback copy failed:", fallbackErr);
+                copyButton.textContent = "Failed";
+            }
         }
+
         setTimeout(() => {
             copyButton.textContent = "Copy";
         }, 2000);
