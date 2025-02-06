@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Progress bar -->
     <div class="progress-bar">
         <div class="progress-indicator"></div>
     </div>
@@ -16,7 +15,6 @@
         <h1>Server Setup Guide</h1>
     </header>
 
-    <!-- Image modal dialog -->
     <dialog id="imageModal">
         <div class="dialog-content">
             <img class="dialog-image" src="" alt="">
@@ -26,178 +24,438 @@
 
     <div class="content-wrapper">
         <nav class="toc">
-            <h2>Contents</h2>
+            <h2>Table Of Contents</h2>
             <ul>
-                <li><a href="#vm-setup">1. Set up VM</a></li>
-                <li><a href="#ubuntu-setup">2. Set up Ubuntu Server</a></li>
-                <li><a href="#nginx-setup">3. Set up Nginx and page</a></li>
-                <li><a href="#dns-setup">4. Add "A record" to DNS</a></li>
+                <li><a href="#vm-setup">1. Sett opp VM</a>
+                    <ul>
+                        <li><a href="#vm-configuration">Lage VM</a></li>
+                        <li><a href="#vm-hardware">Hardware Oppsett</a></li>
+                        <li><a href="#vm-launch">Start VM</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ubuntu-setup">2. Sett opp Ubuntu Server</a>
+                    <ul>
+                        <li><a href="#ubuntu-boot">Boot og Språk</a></li>
+                        <li><a href="#ubuntu-network">Network Oppsett</a></li>
+                        <li><a href="#ubuntu-storage">Storage og System</a></li>
+                        <li><a href="#ubuntu-profile">Profil og SSH</a></li>
+                    </ul>
+                </li>
+                <li><a href="#nginx-setup">3. Sett opp Nginx and page</a>
+                    <ul>
+                        <li><a href="#nginx-install">Installasjon og Oppdatering</a></li>
+                        <li><a href="#nginx-git">Git og Filstruktur</a></li>
+                        <li><a href="#nginx-config">Nginx Konfigurasjon</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
 
         <main>
+            <div class="warning">
+                <p>Hvert bilde er på "neste side" med mindre det står at de er relatert til hverandre!</p>
+            </div>
             <article id="vm-setup" class="step">
-                <h2>1. Set up VM</h2>
-                <p>[Add your VM setup instructions here]</p>
-                <div class="image-container">
-                    <figure>
-                        <img src="/api/placeholder/800/400" alt="VM setup screenshot">
-                        <figcaption>VM Configuration Screen</figcaption>
-                    </figure>
-                </div>
-                <div class="note">
-                    <p>Note: Remember to allocate sufficient resources for your server needs.</p>
-                </div>
+                <h2>1. Sett opp VM</h2>
+                <section id="vm-configuration" class="subsection">
+                    <h3>Lag din VM</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-1.NewVM.png" alt="Creating a new VM">
+                            <figcaption>Step 1: Create New VM</figcaption>
+                        </figure>
+                        <div class="note">
+                            <p>Høyreklikk på din egen pool for å åpne denne menyen</p>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-2.CreationType.png" alt="Selecting Creation Type">
+                            <figcaption>Step 2: Creation Type -> Default</figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-3.VM-NameAndFolder.png" alt="Setting VM Name and Location">
+                            <figcaption>Step 3: Velg VM navn</figcaption>
+                        </figure>
+                        <div class="note">
+                            <p>Pass på at navnet er unikt og at det er relatert til det VM'en skal bli brukt til!</p>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-4.Pool.png" alt="Selecting Resource Pool">
+                            <figcaption>Step 4: Velg Pool -> Default </figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-5.StorageArea.png" alt="Choosing Storage Area">
+                            <figcaption>Step 5: Velg hvor VM skal lages -> IKT-fag (den med masse plass)</figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-6.Compatability.png" alt="Setting Compatibility">
+                            <figcaption>Step 6: Set Compatibility Options -> Default</figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-7.GuestOS.png" alt="Selecting Guest OS">
+                            <figcaption>Step 7: Velg OS. Først velger du type, så mer spesifikt hviklen versjon.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="vm-hardware" class="subsection">
+                    <h3>Hardware Oppsett</h3>
+                    <div class="warning">
+                        <p>Alle bildene under "hardware setup" er på samme side!</p>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-8.Hardware-1.png" alt="Hardware Configuration Part 1">
+                            <figcaption>Sett hardware innstillinger</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                CPU: 2gb
+                                RAM: 4gb
+                                Hard disk: 20-30gb
+                            </code>
+                        </pre>
+                        <div class="note">
+                            <p>Velg "content library iso file" for å få en liste over alle iso filene du kan bruke. (se bilde under)</p>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-9.Hardware-2.png" alt="Hardware Configuration Part 2">
+                            <figcaption>Velg ISO -> Ubuntu live server</figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-10.Hardware-3.png" alt="Hardware Configuration Part 3">
+                            <figcaption>Siste checkup på denne siden</figcaption>
+                        </figure>
+                        <div class="warning">
+                            <p>Pass på at "thin provision" er valgt under "new hard disk" -> "disk provisioning"</p>
+                        </div>
+                        <div class="warning">
+                            <p>Pass på at CD/DVD drive har "connect at power on"</p>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-11.Hardware-4.png" alt="Hardware Configuration Part 4">
+                            <figcaption>Gå til "VM Options" -> Boot Options -> Force EFI setup</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="vm-launch" class="subsection">
+                    <h3>Start VM</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-12.FinalCheck.png" alt="Final Configuration Check">
+                            <figcaption>Se over at alt du gjorde var riktig</figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-13.PowerOn.png" alt="Powering On VM">
+                            <figcaption>Skru på VM</figcaption>
+                        </figure>
+                    </div>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/1-14.LauchWebConsole.png" alt="Launching Web Console">
+                            <figcaption>Launch Web Console</figcaption>
+                        </figure>
+                    </div>
+                </section>
             </article>
 
             <article id="ubuntu-setup" class="step">
-                <h2>2. Set up Ubuntu Server</h2>
-                <p>[Add Ubuntu Server installation instructions here]</p>
-                <pre><code># Example command
-sudo apt update
-sudo apt upgrade -y</code></pre>
+                <h2>2. Sett opp Ubuntu Server</h2>
                 <div class="warning">
-                    <p>Important: Make sure to secure your server with a strong password and SSH keys.</p>
+                    <p>Hvert bilde er på "neste side" med mindre det står at de er relatert til hverandre!</p>
                 </div>
+
+                <section id="ubuntu-boot" class="subsection">
+                    <h3>Boot og Språk</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-1.BootNormally.png" alt="Booting normally">
+                            <figcaption>Boot normally (velg første alternativ)</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-2.TryOrInstall.png" alt="Try or Install Ubuntu">
+                            <figcaption>Velg "Try or Install Ubuntu Server"</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-3.English.png" alt="Language Selection">
+                            <figcaption>Velg English som språk</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-4.LayoutNorwegian.png" alt="Keyboard Layout Selection">
+                            <figcaption>Velg Norwegian som tastatur layout</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-5.UbuntuServer(notMini).png" alt="Ubuntu Server Type">
+                            <figcaption>Velg Ubuntu Server (ikke minimized)</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+
+                <section id="ubuntu-network" class="subsection">
+                    <h3>Network Oppsett</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-6.ManualIPv4.png" alt="Network Configuration">
+                            <figcaption>Sett opp manuell IPv4</figcaption>
+                        </figure>
+                        <div class="note">
+                            <p>Du må sette opp IPv4 manuelt for å få tilgang til internettet senere</p>
+                        </div>
+                        <pre>
+                            <code>
+                                Subnet: 10.12.elevPool.0/24
+                                Address: 10.12.elevPool.valgtAdresse
+                                Gateway: 10.12.elevPool.1
+                                Name servers: 0.0.0.0, 8.8.8.8, 10.10.1.30
+                                -- 0.0.0.0 (default invalid)
+                                -- 8.8.8.8 (google)
+                                -- 10.10.1.30 (default skole DNS)
+                                Search Domains: valgtSubDoman.elevPoolNavn.ikt-fag.no
+                            </code>
+                        </pre>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-7.DoneWithNetwork.png" alt="Network Setup Complete">
+                            <figcaption>Trykk Done når du er ferdig med network setup</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-8.NoProxyAddress.png" alt="Proxy Configuration">
+                            <figcaption>La proxy address stå tom</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-9.DefaultArchiveMirror.png" alt="Archive Mirror">
+                            <figcaption>Bruk default archive mirror</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="ubuntu-storage" class="subsection">
+                    <h3>Storage og System</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-10.ContinueWithoutUpdating.png" alt="Update Options">
+                            <figcaption>Fortsett uten å oppdatere til ny versjon</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-11.DefaultStorageConfig.png" alt="Storage Configuration">
+                            <figcaption>Bruk default storage config</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-12.FinalCheck.png" alt="Final Configuration Check">
+                            <figcaption>Se over at alt er riktig satt opp</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-13.ContinueOnDestructiveAction.png" alt="Confirm Installation">
+                            <figcaption>Bekreft at du vil fortsette</figcaption>
+                        </figure>
+                    </div>
+                </section>
+                <section id="ubuntu-profile" class="subsection">
+                    <h3>Profil og SSH</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-14.ProfileSetup.png" alt="Profile Setup">
+                            <figcaption>Sett opp profil informasjon</figcaption>
+                        </figure>
+                        <div class="note">
+                            <p>Husk å lagre denne informasjonen, du trenger den for å logge inn senere!</p>
+                        </div>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-15.IntallOpenSSHServer.png" alt="OpenSSH Server Installation">
+                            <figcaption>Installer OpenSSH server</figcaption>
+                        </figure>
+                        <div class="note">
+                            <p>Dette er viktig for å kunne koble til serveren senere</p>
+                        </div>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-16.NoSnaps.png" alt="Featured Server Snaps">
+                            <figcaption>Ikke velg noen featured server snaps</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-17.InstallComplete.png" alt="Installation Complete">
+                            <figcaption>Installasjonen er ferdig</figcaption>
+                        </figure>
+                    </div>
+    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/2-18.ClickEnterToContinue.png" alt="Reboot System">
+                            <figcaption>Trykk Enter for å starte systemet på nytt</figcaption>
+                        </figure>
+                    </div>
+                </section>
             </article>
 
             <article id="nginx-setup" class="step">
-                <h2>3. Set up Nginx and page</h2>
-                <p>[Add Nginx installation and configuration instructions here]</p>
-                <div class="image-container">
-                    <figure>
-                        <img src="/api/placeholder/800/400" alt="Nginx configuration">
-                        <figcaption>Nginx Configuration Example</figcaption>
-                    </figure>
-                </div>
-            </article>
+                <h2>3. Sett opp Nginx and page</h2>
+                <section id="nginx-install" class="subsection">
+                    <h3>Installasjon og Oppdatering</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-1.Login.png" alt="Logging into server">
+                            <figcaption>Logg inn med brukernavn og passord du lagde tidligere</figcaption>
+                        </figure>
+                    </div>
+                    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-2.Update.png" alt="Updating system">
+                            <figcaption>Oppdater systemet</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                sudo apt update
+                                sudo apt upgrade
+                            </code>
+                        </pre>
+                    </div>
+                    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-3.ResartRequiredServices.png" alt="Restarting services">
+                            <figcaption>Start tjenester på nytt hvis nødvendig</figcaption>
+                        </figure>
+                        <div class="note">
+                            <p>Noen ganger må du starte tjenester på nytt etter en oppdatering</p>
+                        </div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-4.InstallNginx.png" alt="Installing Nginx">
+                            <figcaption>Installer Nginx</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                sudo apt install nginx
+                            </code>
+                        </pre>
+                    </div>
+                </section>
+                <section id="nginx-git" class="subsection">
+                    <h3>Git og Filstruktur</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-5.GoToVarWww-AndCloneGit.png" alt="Navigating to www directory">
+                            <figcaption>Gå til /var/www/ og klon din git repository</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                cd /var/www/
+                                sudo rm ./html/*
+                                sudo git clone [din-repository-url] html
+                            </code>
+                        </pre>
+                    </div>
+                </section>
 
-            <article id="dns-setup" class="step">
-                <h2>4. Add "A record" to DNS</h2>
-                <p>[Add DNS configuration instructions here]</p>
-                <div class="note">
-                    <p>Note: DNS changes may take up to 48 hours to propagate fully.</p>
-                </div>
+                <section id="nginx-config" class="subsection">
+                    <h3>Nginx Konfigurasjon</h3>
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-6.GoToSitesAvailable.png" alt="Accessing sites-available">
+                            <figcaption>Gå til Nginx sites-available</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                cd /etc/nginx/sites-available/
+                            </code>
+                        </pre>
+                    </div>
+                    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-7.EditDefaultSite.png" alt="Editing default site">
+                            <figcaption>Rediger default configuration</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                sudo nano default
+                            </code>
+                        </pre>
+                        <div class="note">
+                            <p>Oppdater server name til å være ip du valgte for VM, og url/subdomene du valgte for dns</p>
+                        </div>
+                    </div>
+                    
+                    <div class="image-container">
+                        <figure>
+                            <img src="images/3-8.RestartNginx.png" alt="Restarting Nginx">
+                            <figcaption>Start Nginx på nytt for å aktivere endringene</figcaption>
+                        </figure>
+                        <pre>
+                            <code>
+                                sudo systemctl restart nginx
+                            </code>
+                        </pre>
+                    </div>
+                </section>
             </article>
         </main>
     </div>
 
     <footer>
-        <p>Last updated: [Date]</p>
+        <p>Last updated: February 6, 2025</p>
     </footer>
-
-    <script>
-        // Image modal functionality
-        const dialog = document.getElementById('imageModal');
-        const dialogImage = dialog.querySelector('.dialog-image');
-        const dialogClose = dialog.querySelector('.dialog-close');
-
-        document.querySelectorAll('.image-container img').forEach(img => {
-            img.addEventListener('click', () => {
-                dialogImage.src = img.src;
-                dialogImage.alt = img.alt;
-                dialog.showModal();
-            });
-        });
-
-        dialogClose.addEventListener('click', () => {
-            dialog.close();
-        });
-
-        dialog.addEventListener('click', (e) => {
-            if (e.target === dialog) {
-                dialog.close();
-            }
-        });
-
-        // Code block copy functionality
-        document.querySelectorAll('pre').forEach(pre => {
-            // Wrap in a div for positioning
-            const wrapper = document.createElement('div');
-            wrapper.className = 'code-block';
-            pre.parentNode.insertBefore(wrapper, pre);
-            wrapper.appendChild(pre);
-
-            // Add copy button
-            const copyButton = document.createElement('button');
-            copyButton.className = 'copy-button';
-            copyButton.textContent = 'Copy';
-            wrapper.appendChild(copyButton);
-
-            copyButton.addEventListener('click', async () => {
-                const code = pre.textContent;
-                try {
-                    await navigator.clipboard.writeText(code);
-                    copyButton.textContent = 'Copied!';
-                    setTimeout(() => {
-                        copyButton.textContent = 'Copy';
-                    }, 2000);
-                } catch (err) {
-                    copyButton.textContent = 'Failed';
-                    setTimeout(() => {
-                        copyButton.textContent = 'Copy';
-                    }, 2000);
-                }
-            });
-        });
-
-        // Progress bar
-        function updateProgressBar() {
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight - windowHeight;
-            const scrolled = window.scrollY;
-            const progress = (scrolled / documentHeight) * 100;
-            document.querySelector('.progress-indicator').style.width = `${progress}%`;
-        }
-
-        window.addEventListener('scroll', updateProgressBar);
-        updateProgressBar(); // Initial call
-
-        // Active section tracking
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Remove active class from all links
-                    document.querySelectorAll('.toc a').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    // Add active class to current section's link
-                    const id = entry.target.id;
-                    const correspondingLink = document.querySelector(`.toc a[href="#${id}"]`);
-                    if (correspondingLink) {
-                        correspondingLink.classList.add('active');
-                    }
-                }
-            });
-        }, observerOptions);
-
-        // Observe all sections
-        document.querySelectorAll('.step').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Calculate reading time
-        function calculateReadingTime() {
-            const text = document.querySelector('main').textContent;
-            const wordCount = text.trim().split(/\s+/).length;
-            const readingTime = Math.ceil(wordCount / 200); // Assuming 200 words per minute
-            document.getElementById('readingTime').textContent = readingTime;
-        }
-
-        calculateReadingTime();
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && dialog.open) {
-                dialog.close();
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
