@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Setup Guide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-indicator"></div>
+    </div>
+
+    <header>
+        <h1>Server Setup Guide</h1>
+    </header>
+
+    <!-- Image modal dialog -->
+    <dialog id="imageModal">
+        <div class="dialog-content">
+            <img class="dialog-image" src="" alt="">
+            <button class="dialog-close" aria-label="Close dialog">&times;</button>
+        </div>
+    </dialog>
+
+    <div class="content-wrapper">
+        <nav class="toc">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#vm-setup">1. Set up VM</a></li>
+                <li><a href="#ubuntu-setup">2. Set up Ubuntu Server</a></li>
+                <li><a href="#nginx-setup">3. Set up Nginx and page</a></li>
+                <li><a href="#dns-setup">4. Add "A record" to DNS</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <article id="vm-setup" class="step">
+                <h2>1. Set up VM</h2>
+                <p>[Add your VM setup instructions here]</p>
+                <div class="image-container">
+                    <figure>
+                        <img src="/api/placeholder/800/400" alt="VM setup screenshot">
+                        <figcaption>VM Configuration Screen</figcaption>
+                    </figure>
+                </div>
+                <div class="note">
+                    <p>Note: Remember to allocate sufficient resources for your server needs.</p>
+                </div>
+            </article>
+
+            <article id="ubuntu-setup" class="step">
+                <h2>2. Set up Ubuntu Server</h2>
+                <p>[Add Ubuntu Server installation instructions here]</p>
+                <pre><code># Example command
+sudo apt update
+sudo apt upgrade -y</code></pre>
+                <div class="warning">
+                    <p>Important: Make sure to secure your server with a strong password and SSH keys.</p>
+                </div>
+            </article>
+
+            <article id="nginx-setup" class="step">
+                <h2>3. Set up Nginx and page</h2>
+                <p>[Add Nginx installation and configuration instructions here]</p>
+                <div class="image-container">
+                    <figure>
+                        <img src="/api/placeholder/800/400" alt="Nginx configuration">
+                        <figcaption>Nginx Configuration Example</figcaption>
+                    </figure>
+                </div>
+            </article>
+
+            <article id="dns-setup" class="step">
+                <h2>4. Add "A record" to DNS</h2>
+                <p>[Add DNS configuration instructions here]</p>
+                <div class="note">
+                    <p>Note: DNS changes may take up to 48 hours to propagate fully.</p>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <footer>
+        <p>Last updated: [Date]</p>
+    </footer>
+
+    <script>
+        // Image modal functionality
+        const dialog = document.getElementById('imageModal');
+        const dialogImage = dialog.querySelector('.dialog-image');
+        const dialogClose = dialog.querySelector('.dialog-close');
+
+        document.querySelectorAll('.image-container img').forEach(img => {
+            img.addEventListener('click', () => {
+                dialogImage.src = img.src;
+                dialogImage.alt = img.alt;
+                dialog.showModal();
+            });
+        });
+
+        dialogClose.addEventListener('click', () => {
+            dialog.close();
+        });
+
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) {
+                dialog.close();
+            }
+        });
+
+        // Code block copy functionality
+        document.querySelectorAll('pre').forEach(pre => {
+            // Wrap in a div for positioning
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-block';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+
+            // Add copy button
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.textContent = 'Copy';
+            wrapper.appendChild(copyButton);
+
+            copyButton.addEventListener('click', async () => {
+                const code = pre.textContent;
+                try {
+                    await navigator.clipboard.writeText(code);
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy';
+                    }, 2000);
+                } catch (err) {
+                    copyButton.textContent = 'Failed';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy';
+                    }, 2000);
+                }
+            });
+        });
+
+        // Progress bar
+        function updateProgressBar() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+            document.querySelector('.progress-indicator').style.width = `${progress}%`;
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+        updateProgressBar(); // Initial call
+
+        // Active section tracking
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all links
+                    document.querySelectorAll('.toc a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    // Add active class to current section's link
+                    const id = entry.target.id;
+                    const correspondingLink = document.querySelector(`.toc a[href="#${id}"]`);
+                    if (correspondingLink) {
+                        correspondingLink.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.step').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Calculate reading time
+        function calculateReadingTime() {
+            const text = document.querySelector('main').textContent;
+            const wordCount = text.trim().split(/\s+/).length;
+            const readingTime = Math.ceil(wordCount / 200); // Assuming 200 words per minute
+            document.getElementById('readingTime').textContent = readingTime;
+        }
+
+        calculateReadingTime();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && dialog.open) {
+                dialog.close();
+            }
+        });
+    </script>
+</body>
+</html>
